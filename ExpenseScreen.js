@@ -143,6 +143,16 @@ export default function ExpenseScreen() {
 
   const currentFilterLabel =
     filter === 'ALL' ? 'All' : filter === 'WEEK' ? 'This Week' : 'This Month';
+
+  const categoryTotalsMap = filteredExpenses.reduce((acc, exp) => {
+    const key = exp.category || 'Uncategorized';
+    const amt = Number(exp.amount) || 0;
+    acc[key] = (acc[key] || 0) + amt;
+    return acc;
+  }, {});
+
+  const categoryTotals = Object.entries(categoryTotalsMap);
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Student Expense Tracker</Text>
@@ -182,6 +192,19 @@ export default function ExpenseScreen() {
       <Text style={styles.totalText}>
         Total Spending ({currentFilterLabel}): ${totalSpending.toFixed(2)}
       </Text>
+      
+      {categoryTotals.length > 0 && (
+        <View style={styles.categoryTotalsContainer}>
+          <Text style={styles.categoryTotalsHeading}>
+            By Category ({currentFilterLabel}):
+          </Text>
+          {categoryTotals.map(([cat, total]) => (
+            <Text key={cat} style={styles.categoryTotalsRow}>
+              {cat}: ${total.toFixed(2)}
+            </Text>
+          ))}
+        </View>
+      )}
 
       <View style={styles.form}>
         <TextInput
@@ -268,6 +291,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 12,
     textAlign: 'right',
+  },
+  
+  categoryTotalsContainer: {
+    marginBottom: 12,
+  },
+  categoryTotalsHeading: {
+    color: '#e5e7eb',
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  categoryTotalsRow: {
+    color: '#9ca3af',
+    fontSize: 12,
   },
 
   input: {
