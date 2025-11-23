@@ -18,6 +18,40 @@ export default function ExpenseScreen() {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [note, setNote] = useState('');
+  const [filter, setFilter] = useState('ALL'); // 'ALL' | 'WEEK' | 'MONTH'
+
+  const isInCurrentMonth = (dateString) => {
+    const today = new Date();
+    const d = new Date(dateString);
+
+    if (isNaN(d)) return false;
+
+    return (
+      d.getFullYear() === today.getFullYear() &&
+      d.getMonth() === today.getMonth()
+    );
+  };
+
+  const isInCurrentWeek = (dateString) => {
+    const today = new Date();
+    const d = new Date(dateString);
+
+    if (isNaN(d)) return false;
+
+    const dayOfWeek = today.getDay(); // 0–6
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - dayOfWeek);
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    // Compare only date portions
+    const dTime = d.setHours(0, 0, 0, 0);
+    const startTime = startOfWeek.setHours(0, 0, 0, 0);
+    const endTime = endOfWeek.setHours(0, 0, 0, 0);
+
+    return dTime >= startTime && dTime <= endTime;
+  };
 
   const loadExpenses = async () => {
     const rows = await db.getAllAsync(
