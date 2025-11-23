@@ -115,8 +115,36 @@ export default function ExpenseScreen() {
     setEditNote('');
   };
 
-  // Will implement UPDATE in Task 3B
-  const saveEdit = () => {};
+  // Will implement UPDATE 
+  const saveEdit = async () => {
+    if (editingId === null) return;
+
+    const amountNumber = parseFloat(editAmount);
+
+    // Same validation pattern as addExpense
+    if (isNaN(amountNumber) || amountNumber <= 0) {
+      return;
+    }
+
+    const trimmedCategory = editCategory.trim();
+    const trimmedNote = editNote.trim();
+
+    if (!trimmedCategory) {
+      return;
+    }
+
+    // UPDATE the existing row (we keep the same date for now)
+    await db.runAsync(
+      'UPDATE expenses SET amount = ?, category = ?, note = ? WHERE id = ?;',
+      [amountNumber, trimmedCategory, trimmedNote || null, editingId]
+    );
+
+    // Refresh list from DB
+    await loadExpenses();
+
+    // Exit edit mode + clear edit fields
+    cancelEditing();
+  };
 
   const renderExpense = ({ item }) => (
     <View style={styles.expenseRow}>
@@ -350,37 +378,37 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-editForm: {
-  marginBottom: 16,
-  padding: 12,
-  borderRadius: 8,
-  backgroundColor: '#020617',
-  borderWidth: 1,
-  borderColor: '#334155',
-},
-editHeading: {
-  color: '#e5e7eb',
-  fontSize: 16,
-  fontWeight: '700',
-  marginBottom: 8,
-},
-editButtonsRow: {
-  flexDirection: 'row',
-  marginTop: 8,
-},
-editButton: {
-  paddingHorizontal: 8,
-  paddingVertical: 4,
-  marginRight: 8,
-  borderRadius: 6,
-  borderWidth: 1,
-  borderColor: '#38bdf8',
-},
-editButtonText: {
-  color: '#38bdf8',
-  fontSize: 12,
-  fontWeight: '600',
-},
+  editForm: {
+    marginBottom: 16,
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: '#020617',
+    orderWidth: 1,
+    borderColor: '#334155',
+  },
+  editHeading: {
+    color: '#e5e7eb',
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  editButtonsRow: {
+    flexDirection: 'row',
+    marginTop: 8,
+  },
+  editButton: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    marginRight: 8,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#38bdf8',
+  },
+  editButtonText: {
+    color: '#38bdf8',
+    fontSize: 12,
+    fontWeight: '600',
+  },
 
   totalText: {
     color: '#e5e7eb',
