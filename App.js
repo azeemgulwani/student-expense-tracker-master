@@ -5,7 +5,7 @@ import ExpenseScreen from './ExpenseScreen';
 
 export default function App() {
   return (
-    <SQLiteProvider databaseName="expenses.db">
+    <SQLiteProvider databaseName="expenses.db" useSuspense = {false}>
       <ExpenseScreen />
     </SQLiteProvider>
   );
