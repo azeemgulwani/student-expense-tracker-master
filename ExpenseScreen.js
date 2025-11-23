@@ -129,9 +129,49 @@ export default function ExpenseScreen() {
     setup();
   }, []);
 
+    // Apply filter to expenses list
+  const filteredExpenses = expenses.filter((exp) => {
+    if (filter === 'ALL') return true;
+    if (filter === 'WEEK') return isInCurrentWeek(exp.date);
+    if (filter === 'MONTH') return isInCurrentMonth(exp.date);
+    return true;
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Student Expense Tracker</Text>
+
+      <View style={styles.filterRow}>
+        <TouchableOpacity
+          style={[
+          styles.filterButton,
+          filter === 'ALL' && styles.filterButtonActive,
+          ]}
+          onPress={() => setFilter('ALL')}
+        >
+         <Text style={styles.filterButtonText}>All</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            filter === 'WEEK' && styles.filterButtonActive,
+          ]}
+          onPress={() => setFilter('WEEK')}
+        >
+          <Text style={styles.filterButtonText}>This Week</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.filterButton,
+            filter === 'MONTH' && styles.filterButtonActive,
+          ]}
+          onPress={() => setFilter('MONTH')}
+        >
+          <Text style={styles.filterButtonText}>This Month</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.form}>
         <TextInput
