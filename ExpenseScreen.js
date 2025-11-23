@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     backgroundColor: '#020617',
-    orderWidth: 1,
+    borderWidth: 1,
     borderColor: '#334155',
   },
   editHeading: {
