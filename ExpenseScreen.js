@@ -137,6 +137,12 @@ export default function ExpenseScreen() {
     return true;
   });
 
+  const totalSpending = filteredExpenses.reduce((sum, exp) => {
+    return sum + (Number(exp.amount) || 0);
+  }, 0);
+
+  const currentFilterLabel =
+    filter === 'ALL' ? 'All' : filter === 'WEEK' ? 'This Week' : 'This Month';
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Student Expense Tracker</Text>
@@ -172,6 +178,10 @@ export default function ExpenseScreen() {
           <Text style={styles.filterButtonText}>This Month</Text>
         </TouchableOpacity>
       </View>
+      
+      <Text style={styles.totalText}>
+        Total Spending ({currentFilterLabel}): ${totalSpending.toFixed(2)}
+      </Text>
 
       <View style={styles.form}>
         <TextInput
@@ -250,6 +260,14 @@ const styles = StyleSheet.create({
     color: '#e5e7eb',
     fontSize: 12,
     fontWeight: '600',
+  },
+
+  totalText: {
+    color: '#e5e7eb',
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 12,
+    textAlign: 'right',
   },
 
   input: {
