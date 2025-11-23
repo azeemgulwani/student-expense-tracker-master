@@ -20,6 +20,11 @@ export default function ExpenseScreen() {
   const [note, setNote] = useState('');
   const [filter, setFilter] = useState('ALL'); // 'ALL' | 'WEEK' | 'MONTH'
 
+  const [editingId, setEditingId] = useState(null);
+  const [editAmount, setEditAmount] = useState('');
+  const [editCategory, setEditCategory] = useState('');
+  const [editNote, setEditNote] = useState('');
+
   const isInCurrentMonth = (dateString) => {
     const today = new Date();
     const d = new Date(dateString);
@@ -96,6 +101,22 @@ export default function ExpenseScreen() {
     loadExpenses();
   };
 
+  const startEditing = (expense) => {
+    setEditingId(expense.id);
+    setEditAmount(String(expense.amount ?? ''));
+    setEditCategory(expense.category ?? '');
+    setEditNote(expense.note ?? '');
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setEditAmount('');
+    setEditCategory('');
+    setEditNote('');
+  };
+
+  // Will implement UPDATE in Task 3B
+  const saveEdit = () => {};
 
   const renderExpense = ({ item }) => (
     <View style={styles.expenseRow}>
@@ -104,6 +125,13 @@ export default function ExpenseScreen() {
         <Text style={styles.expenseCategory}>{item.category}</Text>
         {item.note ? <Text style={styles.expenseNote}>{item.note}</Text> : null}
       </View>
+
+      <TouchableOpacity
+        style={styles.editButton}
+        onPress={() => startEditing(item)}
+      >
+        <Text style={styles.editButtonText}>Edit</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={() => deleteExpense(item.id)}>
         <Text style={styles.delete}>✕</Text>
@@ -232,6 +260,43 @@ export default function ExpenseScreen() {
         <Button title="Add Expense" onPress={addExpense} />
       </View>
 
+      {editingId !== null && (
+        <View style={styles.editForm}>
+          <Text style={styles.editHeading}>Edit Expense</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Amount (e.g. 12.50)"
+            placeholderTextColor="#9ca3af"
+            keyboardType="numeric"
+            value={editAmount}
+            onChangeText={setEditAmount}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Category (Food, Books, Rent...)"
+            placeholderTextColor="#9ca3af"
+            value={editCategory}
+            onChangeText={setEditCategory}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Note (optional)"
+            placeholderTextColor="#9ca3af"
+            value={editNote}
+            onChangeText={setEditNote}
+          />
+
+          <View style={styles.editButtonsRow}>
+            <View style={{ flex: 1, marginRight: 8 }}>
+              <Button title="Save Changes" onPress={saveEdit} />
+            </View>
+            <View style={{ flex: 1, marginLeft: 8 }}>
+              <Button title="Cancel" color="#6b7280" onPress={cancelEditing} />
+            </View>
+          </View>
+        </View>
+      )}
+
       <FlatList
         data={filteredExpenses}
         keyExtractor={(item) => item.id.toString()}
@@ -284,6 +349,38 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
+
+editForm: {
+  marginBottom: 16,
+  padding: 12,
+  borderRadius: 8,
+  backgroundColor: '#020617',
+  borderWidth: 1,
+  borderColor: '#334155',
+},
+editHeading: {
+  color: '#e5e7eb',
+  fontSize: 16,
+  fontWeight: '700',
+  marginBottom: 8,
+},
+editButtonsRow: {
+  flexDirection: 'row',
+  marginTop: 8,
+},
+editButton: {
+  paddingHorizontal: 8,
+  paddingVertical: 4,
+  marginRight: 8,
+  borderRadius: 6,
+  borderWidth: 1,
+  borderColor: '#38bdf8',
+},
+editButtonText: {
+  color: '#38bdf8',
+  fontSize: 12,
+  fontWeight: '600',
+},
 
   totalText: {
     color: '#e5e7eb',
