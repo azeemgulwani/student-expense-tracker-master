@@ -116,7 +116,7 @@ STUDENT-EXPENSE-TRACKER-MASTER
     iii. Totals and category totals
     iv. Edit form state
 
-## ow Data Works (SQLite)
+## How Data Works (SQLite)
 Database file: expenses.db (created automatically by Expo/SQLite)
 
 Table: expenses
