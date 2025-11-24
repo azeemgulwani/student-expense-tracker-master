@@ -56,9 +56,9 @@ Your **laptop and phone must be on the same Wi-Fi network**.
 ### 2. Install Dependencies
 
 From the project folder:
-
+```bash
 npm install
-
+```
 This installs React Native, Expo, expo-sqlite, and other dependencies.
 
 ---
@@ -67,9 +67,9 @@ This installs React Native, Expo, expo-sqlite, and other dependencies.
 
 Start the Expo development server:
 
-
+```bash
 npx expo start
-
+```
 - You will see a QR code in the terminal or browser.
 
     - On Android: open Expo Go → tap Scan QR Code → scan the QR.
@@ -78,11 +78,11 @@ npx expo start
 
 If you run into cache issues, you can try:
 
-
+```bash
 npx expo start -c
-
+```
 ## 🗂️ Project Structure
-
+```bash
 STUDENT-EXPENSE-TRACKER-MASTER
 │
 ├── .expo
@@ -115,12 +115,12 @@ STUDENT-EXPENSE-TRACKER-MASTER
     ii. Date filters
     iii. Totals and category totals
     iv. Edit form state
-
+```
 ## How Data Works (SQLite)
 Database file: expenses.db (created automatically by Expo/SQLite)
 
 Table: expenses
-
+```bash
 Columns:
 
 id – INTEGER PRIMARY KEY AUTOINCREMENT
@@ -140,7 +140,7 @@ execAsync() – create table
 runAsync() – INSERT, UPDATE, DELETE
 
 getAllAsync() – SELECT all rows
-
+```
 ## ✅ Current Functionality Checklist
  - Base expense tracker runs in Expo Go
 
