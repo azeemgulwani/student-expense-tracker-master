@@ -57,28 +57,31 @@ Your **laptop and phone must be on the same Wi-Fi network**.
 
 From the project folder:
 
-```bash
 npm install
+
 This installs React Native, Expo, expo-sqlite, and other dependencies.
 
-3. Run the App
+---
+
+### 3. Run the App
+
 Start the Expo development server:
 
 
 npx expo start
 
-You will see a QR code in the terminal or browser.
+- You will see a QR code in the terminal or browser.
 
-On Android: open Expo Go → tap Scan QR Code → scan the QR.
+    - On Android: open Expo Go → tap Scan QR Code → scan the QR.
 
-On iOS: open the Camera app → scan the QR → open in Expo Go.
+    - On iOS: open the Camera app → scan the QR → open in Expo Go.
 
 If you run into cache issues, you can try:
 
 
 npx expo start -c
 
-🗂️ Project Structure
+## 🗂️ Project Structure
 
 STUDENT-EXPENSE-TRACKER-MASTER
 │
@@ -113,7 +116,7 @@ STUDENT-EXPENSE-TRACKER-MASTER
     iii. Totals and category totals
     iv. Edit form state
 
-How Data Works (SQLite)
+## ow Data Works (SQLite)
 Database file: expenses.db (created automatically by Expo/SQLite)
 
 Table: expenses
@@ -138,21 +141,21 @@ runAsync() – INSERT, UPDATE, DELETE
 
 getAllAsync() – SELECT all rows
 
-✅ Current Functionality Checklist
- Base expense tracker runs in Expo Go
+## ✅ Current Functionality Checklist
+ - Base expense tracker runs in Expo Go
 
- SQLite table includes a date column
+ - SQLite table includes a date column
 
- Automatically set today’s date for new expenses
+ - Automatically set today’s date for new expenses
 
- Filters: All / This Week / This Month
+ - Filters: All / This Week / This Month
 
- Total spending for current filter
+ - Total spending for current filter
 
- Category totals for current filter
+ - Category totals for current filter
 
- Edit existing expenses (UPDATE)
+ - Edit existing expenses (UPDATE)
 
- Delete expenses (DELETE)
+ - Delete expenses (DELETE)
 
- UI updates correctly after add/edit/delete/filter
+ - UI updates correctly after add/edit/delete/filter
