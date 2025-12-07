@@ -8,8 +8,10 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
+import { BarChart } from 'react-native-chart-kit'; 
 
 export default function ExpenseScreen() {
   const db = useSQLiteContext();
