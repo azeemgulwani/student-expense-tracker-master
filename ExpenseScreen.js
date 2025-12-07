@@ -211,6 +211,32 @@ export default function ExpenseScreen() {
 
   const categoryTotals = Object.entries(categoryTotalsMap);
 
+  // Prepare chart data from categoryTotals
+  const screenWidth = Dimensions.get('window').width;
+
+  const hasCategoryData = categoryTotals.length > 0;
+
+  // Labels: category names (truncated if very long)
+  const chartLabels = hasCategoryData
+    ? categoryTotals.map(([cat]) =>
+        cat.length > 10 ? cat.slice(0, 10) + '…' : cat
+      )
+    : ['No Data'];
+
+  // Values: total amount per category
+  const chartValues = hasCategoryData
+    ? categoryTotals.map(([, total]) => total)
+    : [0];
+
+  const chartData = {
+    labels: chartLabels,
+    datasets: [
+      {
+        data: chartValues,
+      },
+    ],
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Student Expense Tracker</Text>
