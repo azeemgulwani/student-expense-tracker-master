@@ -290,6 +290,45 @@ export default function ExpenseScreen() {
         </View>
       )}
 
+      {categoryTotals.length > 0 && (
+        <View style={styles.categoryTotalsContainer}>
+          <Text style={styles.categoryTotalsHeading}>
+            By Category ({currentFilterLabel}):
+          </Text>
+
+          {/* Chart: Spending by Category */}
+          <View style={styles.chartContainer}>
+            <Text style={styles.chartTitle}>
+              Spending by Category ({currentFilterLabel})
+            </Text>
+            <BarChart
+              data={chartData}
+              width={screenWidth - 32} // screen width minus horizontal padding
+              height={220}
+              fromZero
+              yAxisLabel="$"
+              chartConfig={{
+                backgroundColor: '#0f172a',
+                backgroundGradientFrom: '#0f172a',
+                backgroundGradientTo: '#0f172a',
+                decimalPlaces: 2,
+                color: (opacity = 1) => `rgba(248, 250, 252, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(148, 163, 184, ${opacity})`,
+                barPercentage: 0.7,
+              }}
+              style={styles.chart}
+            />
+          </View>
+
+          {/* Text breakdown under the chart */}
+          {categoryTotals.map(([cat, total]) => (
+            <Text key={cat} style={styles.categoryTotalsRow}>
+              {cat}: ${total.toFixed(2)}
+            </Text>
+          ))}
+        </View>
+      )}
+
       <View style={styles.form}>
         <TextInput
           style={styles.input}
