@@ -528,6 +528,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#9ca3af',
   },
+
+  chartContainer: {
+    marginTop: 4,
+    marginBottom: 8,
+    paddingVertical: 8,
+  },
+  chartTitle: {
+    color: '#e5e7eb',
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  chart: {
+    borderRadius: 8,
+    marginTop: 4,
+  },
+  
   delete: {
     color: '#f87171',
     fontSize: 20,
