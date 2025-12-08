@@ -1,7 +1,7 @@
-# Student Expense Tracker (React Native + Expo + SQLite)
+# Student Expense Tracker (React Native + Expo + SQLite + Charts)
 
 A mobile **Student Expense Tracker** built with **React Native**, **Expo Go**, and **SQLite**.  
-The app lets you record expenses, filter them by date, see totals, and edit or delete entries.  
+The app lets you record expenses, filter them by date, see totals, edit or delete entries, and includes a **Spending by Category bar chart** using real SQLite data.  
 All data is saved locally on the device using SQLite.
 
 ---
@@ -22,6 +22,7 @@ All data is saved locally on the device using SQLite.
     (e.g., “Total Spending (This Month): $325.40”)
   - Spending **by category** for the current filter  
     (e.g., Food: $120, Books: $80.50, etc.)
+  - **NEW:** Bar chart visualization of category totals
 - **Edit existing expenses**:
   - Tap **Edit** on a row to change amount, category, or note
   - Save changes or cancel
@@ -35,6 +36,7 @@ All data is saved locally on the device using SQLite.
 - **React Native** (via Expo)
 - **Expo Go**
 - **expo-sqlite** (modern async API with `SQLiteProvider` and `useSQLiteContext`)
+- **react-native-chart-kit** (bar chart)
 - JavaScript (functional components + hooks)
 
 ---
@@ -42,20 +44,14 @@ All data is saved locally on the device using SQLite.
 ## 📦 Getting Started
 
 ### 1. Prerequisites
-
-- **Node.js** (LTS version recommended)
-- **Expo CLI tools** (used via `npx`)
-- **Expo Go** app on your phone:
-  - iOS: App Store → search **“Expo Go”**
-  - Android: Google Play → search **“Expo Go”**
-
-Your **laptop and phone must be on the same Wi-Fi network**.
+- **Node.js**
+- **Expo CLI** (via `npx`)
+- **Expo Go** mobile app
+- Laptop & phone must be on the **same Wi-Fi network**
 
 ---
 
 ### 2. Install Dependencies
-
-From the project folder:
 ```bash
 npm install
 ```
@@ -115,6 +111,7 @@ STUDENT-EXPENSE-TRACKER-MASTER
     ii. Date filters
     iii. Totals and category totals
     iv. Edit form state
+    v. Chart data preparation + rendering
 ```
 ## How Data Works (SQLite)
 Database file: expenses.db (created automatically by Expo/SQLite)
@@ -141,6 +138,97 @@ runAsync() – INSERT, UPDATE, DELETE
 
 getAllAsync() – SELECT all rows
 ```
+## Spending by Category Chart
+
+- The app now includes a bar chart showing spending by category.
+
+Key Behaviors:
+
+ - Uses real data from categoryTotals
+
+ - Labels = category names
+
+ - Values = total spending per category
+
+ - Chart width uses: Dimensions.get("window").width - 32
+
+ - Automatically updates when:
+
+ - Adding an expense
+
+ - Editing an expense
+
+ - Deleting an expense
+
+ - Changing filters (All / Week / Month)
+
+## GitHub Copilot Reflection
+## How I Used Copilot
+
+I used comments as prompts for Copilot. Example:
+```bash
+// spending chart data preparation:
+// REQUIREMENTS:
+// - use categoryTotals for labels + totals
+// - shorten long labels
+// - build chartData for react-native-chart-kit
+// - handle empty dataset
+// - use Dimensions for responsive width
+```
+
+Copilot generated:
+
+- chartLabels
+
+- chartValues
+
+- full chartData structure
+
+- Dimensions sizing logic
+
+For rendering the UI:
+```bash
+{/* chart UI:
+    REQUIREMENTS:
+    - render BarChart
+    - match dark theme
+    - include title
+    - maintain spacing
+*/}
+```
+
+This produced a working chart component I refined.
+
+## Copilot Suggestions I Rejected
+
+Copilot initially suggested dummy values like:
+```bash
+labels: ['Food','Rent']
+datasets: [{ data: [200,350] }]
+```
+
+I rejected this because:
+
+- Assignment requires real app data
+
+- I already calculate categoryTotals dynamically
+
+I replaced dummy values with:
+``` bash
+categoryTotals.map(([cat,total]) => ...)
+```
+### Where Copilot Saved Time
+
+- Generating chart JSX
+
+- Providing chartConfig structure
+
+- Completing .map() transformations
+
+- Speeding repetitive component patterns
+
+I still manually verified and modified all code.
+
 ## ✅ Current Functionality Checklist
  - Base expense tracker runs in Expo Go
 
@@ -153,6 +241,8 @@ getAllAsync() – SELECT all rows
  - Total spending for current filter
 
  - Category totals for current filter
+
+ - Category bar chart implemented
 
  - Edit existing expenses (UPDATE)
 
