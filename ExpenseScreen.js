@@ -211,6 +211,15 @@ export default function ExpenseScreen() {
 
   const categoryTotals = Object.entries(categoryTotalsMap);
 
+  // spending chart data preparation:
+  // REQUIREMENTS:
+  // 1. use categoryTotals array as the source
+  // 2. create labels from category names
+  // 3. create numeric dataset from total spending
+  // 4. handle case with no categories (fallback "No Data")
+  // 5. use Dimensions for responsive chart width
+  // 6. return an object shaped exactly for react-native-chart-kit
+  // 7. match the dark theme styling of the app
   // Prepare chart data from categoryTotals
   const screenWidth = Dimensions.get('window').width;
 
@@ -276,20 +285,7 @@ export default function ExpenseScreen() {
       <Text style={styles.totalText}>
         Total Spending ({currentFilterLabel}): ${totalSpending.toFixed(2)}
       </Text>
-      
-      {categoryTotals.length > 0 && (
-        <View style={styles.categoryTotalsContainer}>
-          <Text style={styles.categoryTotalsHeading}>
-            By Category ({currentFilterLabel}):
-          </Text>
-          {categoryTotals.map(([cat, total]) => (
-            <Text key={cat} style={styles.categoryTotalsRow}>
-              {cat}: ${total.toFixed(2)}
-            </Text>
-          ))}
-        </View>
-      )}
-
+    
       {categoryTotals.length > 0 && (
         <View style={styles.categoryTotalsContainer}>
           <Text style={styles.categoryTotalsHeading}>
@@ -297,6 +293,17 @@ export default function ExpenseScreen() {
           </Text>
 
           {/* Chart: Spending by Category */}
+          {/* spending chart UI:
+          // REQUIREMENTS:
+          // 1. render a BarChart from react-native-chart-kit
+          // 2. use chartData computed above (NO hard-coded values)
+          // 3. show title: "Spending by Category"
+          // 4. width should use screen width minus padding
+          // 5. y-axis should show dollar amounts with "$"
+          // 6. colors must match the app's dark theme (#0f172a background)
+          // 7. keep layout simple and readable
+          // 8. place category totals text directly below the chart
+          */}
           <View style={styles.chartContainer}>
             <Text style={styles.chartTitle}>
               Spending by Category ({currentFilterLabel})
@@ -528,6 +535,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#9ca3af',
   },
+
+// style generation for chart components:
+// REQUIREMENTS:
+// 1. container should add spacing above and below chart
+// 2. chart should have rounded corners
+// 3. title text should match existing color scheme (#e5e7eb)
+// 4. padding should be gentle and consistent
+// 5. Copilot can suggest a base, refine manually afterward
 
   chartContainer: {
     marginTop: 4,
